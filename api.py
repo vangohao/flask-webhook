@@ -2,14 +2,20 @@ from flask import Flask,request,json
 import json
 import requests
 
+import os
+
+script_dir = os.path.dirname(__file__)
+def get_abs_file_path(rel_path):
+    return os.path.join(script_dir, rel_path)
+
 app = Flask(__name__)
 
-f = open("url")
-url = f.read()
+f = open(get_abs_file_path("url"))
+webhook_url = f.read()
 f.close()
 
 def get_template(event):
-    f = open("template/%s.json" % event);
+    f = open(get_abs_file_path("template/%s.json" % event));
     s = f.read()
     f.close()
     return json.loads(s)
@@ -19,7 +25,7 @@ def send(data):
         "msg_type": "interactive",
         "card": data
     }
-    response = requests.post(url, json=result)
+    response = requests.post(webhook_url, json=result)
     print("response code: ", response.status_code)
 
 def parse_labels(labels):
