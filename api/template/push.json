@@ -1,0 +1,41 @@
+{
+  "config": {
+    "wide_screen_mode": true,
+    "enable_forward": true
+  },
+  "elements": [
+    {
+      "tag": "div",
+      "text": {
+        "content": "commit message",
+        "tag": "lark_md"
+      }
+    },
+    {
+      "fields": [
+        {
+          "is_short": true,
+          "text": {
+            "content": "**head commit id**\n5f0afd7817735dd524b56d4932ecbf0121363cdd",
+            "tag": "lark_md"
+          }
+        },
+        {
+          "is_short": true,
+          "text": {
+            "content": "**head commit author**\nHao Luo",
+            "tag": "lark_md"
+          }
+        }
+      ],
+      "tag": "div"
+    }
+  ],
+  "header": {
+    "template": "green",
+    "title": {
+      "content": "@vangohao pushed to unisolver/master",
+      "tag": "plain_text"
+    }
+  }
+}
