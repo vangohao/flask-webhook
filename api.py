@@ -124,7 +124,8 @@ def github():
         
         if (event_created_at == event_updated_at) and event_action != "opened":
             flag = False
-    
+    else:
+        return "not supported event"
 
     print( json.dumps(result))
     if flag:
