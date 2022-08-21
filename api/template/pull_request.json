@@ -1,0 +1,55 @@
+{
+    "config": {
+      "wide_screen_mode": true,
+      "enable_forward": true
+    },
+    "elements": [
+      {
+        "tag": "div",
+        "text": {
+          "content": "**Title: **issue title",
+          "tag": "lark_md"
+        }
+      },
+      {
+        "tag": "div",
+        "text": {
+          "content": "labels: **bug** **pri:1**",
+          "tag": "lark_md"
+        }
+      },
+      {
+        "tag": "div",
+        "text": {
+          "content": "issue content",
+          "tag": "lark_md"
+        }
+      },
+      {
+        "fields": [
+          {
+            "is_short": true,
+            "text": {
+              "content": "**From**\nhead_label",
+              "tag": "lark_md"
+            }
+          },
+          {
+            "is_short": true,
+            "text": {
+              "content": "**To**\nbase_label",
+              "tag": "lark_md"
+            }
+          }
+        ],
+        "tag": "div"
+      }
+    ],
+    "header": {
+      "template": "yellow",
+      "title": {
+        "content": "@vangohao opened pull request #17 in unisolver",
+        "tag": "plain_text"
+      }
+    }
+  }
