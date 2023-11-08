@@ -11,7 +11,7 @@ def get_abs_file_path(rel_path):
 app = Flask(__name__)
 
 f = open(get_abs_file_path("url"))
-webhook_url = f.read()
+webhook_urls = f.read().split("\n")
 f.close()
 
 def get_template(event):
@@ -20,12 +20,12 @@ def get_template(event):
     f.close()
     return json.loads(s)
 
-def send(data):
+def send(webhook_id, data):
     result = {
         "msg_type": "interactive",
         "card": data
     }
-    response = requests.post(webhook_url, json=result)
+    response = requests.post(webhook_urls[webhook_id], json=result)
     print("response code: ", response.status_code)
 
 def parse_labels(labels):
@@ -43,19 +43,9 @@ def parse_labels(labels):
 def remove_cr(text):
     return "\n".join(text.splitlines())
 
-@app.route('/')
-def hello():
-    return 'Webhooks with Python'
-
-@app.route('/github',methods=['POST'])
-def github():
-    data = request.json
-    event = request.headers["X-Github-Event"]
-
+def process_message(data, event):
     flag = True
-    if event == "ping":
-        return "ping"
-    elif event == "push":
+    if event == "push":
         branch = data["ref"].split("/")[-1]
         repo_name = data["repository"]["name"]
         pusher = data["pusher"]["name"]
@@ -125,13 +115,44 @@ def github():
         if (event_created_at == event_updated_at) and event_action != "opened":
             flag = False
     else:
-        return "not supported event"
+        result = "not supported"
+        flag = False
 
-    print( json.dumps(result))
+    return flag, result
+
+@app.route('/')
+def hello():
+    return 'Webhooks with Python'
+
+@app.route('/github0',methods=['POST'])
+def github0():
+    data = request.json
+    event = request.headers["X-Github-Event"]
+
+    flag, result = process_message(data, event)
+
     if flag:
-        send(result)
-    return json.dumps(result)
+        print(json.dumps(result))
+        send(0, result)
+        return json.dumps(result)
+    else:
+        print("not supported")
+        return "not supported"
 
+@app.route('/github1',methods=['POST'])
+def github1():
+    data = request.json
+    event = request.headers["X-Github-Event"]
+
+    flag, result = process_message(data, event)
+
+    if flag:
+        print(json.dumps(result))
+        send(1, result)
+        return json.dumps(result)
+    else:
+        print("not supported")
+        return "not supported"
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
